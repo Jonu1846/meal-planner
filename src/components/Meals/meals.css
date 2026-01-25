@@ -1,0 +1,122 @@
+/* Page wrapper */
+.meal-list-page {
+  border-radius: 40px;
+  padding: 20px;
+  background: #fff3e8; /* soft peach */
+  min-height: 100vh;
+}
+
+/* Header */
+.meal-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.meal-list-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.back-btn {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: #444;
+}
+
+/* Search */
+.meal-search {
+  margin-bottom: 16px;
+}
+
+.meal-search input {
+  width: 60%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.meal-search input:focus {
+  border-color: #ff8c5a;
+  box-shadow: 0 0 5px rgba(255, 140, 90, 0.5);
+}
+
+/* Cards grid */
+.meal-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* Meal Card */
+.meal-card {
+  background: #ffffff;
+  height: 100%;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.meal-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Header row inside card */
+.meal-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.meal-card h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.meal-type-indicator {
+  font-size: 18px;
+}
+
+/* Calories */
+.meal-calories {
+  font-size: 13px;
+  margin-bottom: 12px;
+  color: #555;
+}
+
+/* Select Button */
+.meal-card button {
+  width: 100%;
+  margin: 10px;
+  margin-left: -2px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #ff8c5a;
+  color: white;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.meal-card button:hover {
+  background-color: #ff7043;
+}
+
+/* Empty state */
+.no-meals {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+}

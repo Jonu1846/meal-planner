@@ -1,0 +1,85 @@
+/* ================================
+   GLOBAL RESET & BASE
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #fff4ee; /* soft peach base */
+  color: #2d2d2d;
+}
+
+/* ================================
+   APP ROOT
+================================ */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================================
+   NAVBAR WRAPPER
+================================ */
+.app-navbar {
+  height: 64px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f1d6c8;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  z-index: 100;
+}
+
+/* ================================
+   MAIN CONTENT AREA
+   (NO SIDEBAR ASSUMPTIONS)
+================================ */
+.app-content {
+  flex: 1;
+  padding: 24px 32px;
+  background-color: #fff4ee;
+}
+
+/* ================================
+   PAGE CONTAINER (OPTIONAL USE)
+================================ */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #fff8f3;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+}
+
+/* ================================
+   COMMON UTILITIES
+================================ */
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.muted-text {
+  color: #7a7a7a;
+  font-size: 0.9rem;
+}
+
+/* ================================
+   RESPONSIVE SAFETY
+================================ */
+@media (max-width: 768px) {
+  .app-content {
+    padding: 16px;
+  }
+
+  .page-container {
+    padding: 16px;
+  }
+}

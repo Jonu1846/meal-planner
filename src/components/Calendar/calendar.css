@@ -1,0 +1,140 @@
+/* ===== Calendar Container ===== */
+.calendar-container {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+  position: relative;
+}
+
+/* ===== Background Image ===== */
+.calendar-container.bg-image {
+  background: url('../../assets/calender-img.jpg') no-repeat center/cover;
+}
+
+/* Overlay for readability */
+.calendar-container.bg-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== Day Names ===== */
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 22px;
+  font-weight: 700;
+  color: #ffd700;
+  text-align: center;
+  font-size: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.calendar-header div {
+  padding: 10px 0;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+  border-radius: 6px;
+}
+
+/* ===== Calendar Grid ===== */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 16px;
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Calendar Cell ===== */
+.calendar-cell {
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  background: #2b2b2b;
+  box-shadow: 0 6px 8px rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.calendar-cell:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 14px rgba(0,0,0,0.55);
+}
+
+.calendar-cell.empty {
+  background: transparent;
+  cursor: default;
+}
+
+/* ===== Date Number ===== */
+.date-number {
+  font-size: 22px;
+  font-weight: 600;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== When meals exist ===== */
+.calendar-cell.has-meals {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 12px;
+}
+
+.calendar-cell.has-meals .date-number {
+  font-size: 16px;
+}
+
+/* ===== Meal Indicator ===== */
+.meal-indicators {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #ffffff;
+  z-index: 1;
+}
+
+/* ===== Today ===== */
+.calendar-cell.today {
+  background: #ff6f00;
+}
+
+.calendar-cell.today .date-number {
+  color: #000000;
+  font-weight: 700;
+}
+
+/* ===== Selected ===== */
+.calendar-cell.selected {
+  background: #FFD700;
+}
+
+.calendar-cell.selected .date-number {
+  color: #000000;
+}
+
+/* ===== Past Date ===== */
+.calendar-cell.past-date {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.calendar-cell.past-date:hover {
+  transform: none;
+  box-shadow: none;
+}

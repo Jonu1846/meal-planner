@@ -1,0 +1,237 @@
+/* =========================
+   HOME PAGE LAYOUT
+========================= */
+
+.home-page {
+  min-height: 100vh;
+  padding: 40px 60px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+}
+
+.home-calendar-wrapper {
+  width: 100%;
+  max-width: 1100px;
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+
+.home-hero {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #ffb74d;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* LOGO CONTAINER */
+
+.hero-logo-container {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background-color: #ffe0c1;
+  border: 4px solid #ffcc80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30px auto;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-logo-container:hover {
+  transform: scale(1.15);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+.hero-logo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* HERO TEXT */
+
+.hero-text h1 {
+  font-size: 44px;
+  margin-bottom: 12px;
+  color: #d84315;
+}
+
+.hero-text p {
+  font-size: 18px;
+  margin-bottom: 24px;
+  color: #ff6f00;
+}
+
+/* =========================
+   HERO BUTTON (CTA)
+========================= */
+
+.hero-button {
+  position: relative;
+  background: linear-gradient(135deg, #ff9a76, #ff6f61);
+  color: white;
+  font-size: 1.35rem;
+  font-weight: 700;
+  padding: 16px 36px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 15px rgba(255, 111, 97, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+}
+
+.hero-button span.emoji {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.hero-button:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(255, 111, 97, 0.5);
+}
+
+.hero-button:hover span.emoji {
+  transform: scale(1.3) rotate(-10deg);
+}
+
+/* Glow animation */
+
+.hero-button::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    45deg,
+    #ff9a76,
+    #ff6f61,
+    #ffc987,
+    #ff9a76
+  );
+  background-size: 400% 400%;
+  border-radius: 18px;
+  filter: blur(6px);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+  animation: gradientShift 8s ease infinite;
+}
+
+.hero-button:hover::before {
+  opacity: 1;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* =========================
+   WHY SECTION
+========================= */
+
+.home-why {
+  display: flex;
+  justify-content: space-around;
+  gap: 30px;
+  margin-top: 80px;
+}
+
+.why-card {
+  background-color: #ffe0c1;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 220px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.why-card span {
+  font-size: 32px;
+}
+
+.why-card h3 {
+  margin: 12px 0 6px;
+  color: #d84315;
+}
+
+.why-card p {
+  color: #6d4c41;
+}
+
+/* =========================
+   FEATURES
+========================= */
+
+.home-features {
+  margin-top: 80px;
+  text-align: center;
+}
+
+.home-features h2 {
+  color: #d84315;
+}
+
+.home-features ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.home-features li {
+  margin: 10px 0;
+  color: #ff6f00;
+}
+
+/* =========================
+   STEPS
+========================= */
+
+.home-steps {
+  margin-top: 80px;
+  text-align: center;
+}
+
+.steps {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.step {
+  padding: 18px 22px;
+  background: #ffe0c1;
+  border-radius: 8px;
+  color: #d84315;
+}
+
+/* =========================
+   FINAL CTA
+========================= */
+
+.home-cta {
+  margin-top: 100px;
+  padding: 60px 20px;
+  text-align: center;
+  background-color: #ffb74d;
+  border-radius: 12px;
+}
+
+.home-cta h2 {
+  color: #d84315;
+}
