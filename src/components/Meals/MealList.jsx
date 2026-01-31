@@ -1,20 +1,49 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MealCard from "./MealCard";
 import "./meals.css";
+import { fetchMealsFromAPI } from "../utils/api";
 
 function MealList({
-  meals = [],
   filter = "All",
   searchTerm,
   setSearchTerm,
   onSelectMeal,
   onBack,
 }) {
-  const filteredMeals = meals.filter(
-    (meal) =>
-      (filter === "All" || meal.type === filter) &&
-      meal.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const [meals, setMeals] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // 🔍 Fetch meals from external API when searchTerm changes
+  useEffect(() => {
+    // Do not call API for empty search
+    if (!searchTerm || searchTerm.trim() === "") {
+      setMeals([]);
+      return;
+    }
+
+    const fetchMeals = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchMealsFromAPI(searchTerm);
+        setMeals(data || []);
+      } catch (err) {
+        console.error("Failed to fetch meals from API:", err);
+        setMeals([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMeals();
+  }, [searchTerm]);
+
+  // 🥗 Veg / Non-Veg filter
+  const filteredMeals = meals.filter((meal) => {
+    if (filter === "All") return true;
+    if (filter === "Veg") return meal.isVeg === true;
+    if (filter === "Non-Veg") return meal.isVeg === false;
+    return true;
+  });
 
   return (
     <div className="meal-list-page">
@@ -26,7 +55,7 @@ function MealList({
         </button>
       </div>
 
-      {/* Search Bar */}
+      {/* Search */}
       <div className="meal-search">
         <input
           type="text"
@@ -38,7 +67,9 @@ function MealList({
 
       {/* Meal Cards */}
       <div className="meal-cards">
-        {filteredMeals.length > 0 ? (
+        {loading ? (
+          <p>Loading meals...</p>
+        ) : filteredMeals.length > 0 ? (
           filteredMeals.map((meal) => (
             <MealCard
               key={meal.id}
@@ -46,8 +77,10 @@ function MealList({
               onSelect={() => onSelectMeal(meal)}
             />
           ))
-        ) : (
+        ) : searchTerm ? (
           <p className="no-meals">No meals found.</p>
+        ) : (
+          <p className="no-meals">Start typing to search meals.</p>
         )}
       </div>
     </div>

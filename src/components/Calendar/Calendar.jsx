@@ -20,35 +20,30 @@ function Calendar({
 
   return (
     <div className="calendar-container bg-image">
-      {/* Day Names */}
       <div className="calendar-header">
         {dayNames.map((day) => (
           <div key={day}>{day}</div>
         ))}
       </div>
 
-      {/* Calendar Grid */}
       <div className="calendar-grid">
-        {/* Empty cells */}
         {Array.from({ length: firstDayOfMonth }).map((_, i) => (
           <div key={i} className="calendar-cell empty"></div>
         ))}
 
-        {/* Days */}
         {Array.from({ length: daysInMonth }, (_, i) => {
           const day = i + 1;
-          const mealsForDay = selectedMeals[day];
-          const hasMeals = mealsForDay && Object.keys(mealsForDay).length > 0;
+          const dateKey = new Date(currentYear, currentMonth, day)
+            .toISOString()
+            .split("T")[0];
 
+          const mealsForDay = selectedMeals[dateKey] || {};
+          const hasMeals = Object.keys(mealsForDay).length > 0;
           const isSelected = selectedDate === day;
           const isToday = day === todayDate;
 
           const thisDate = new Date(currentYear, currentMonth, day);
-          const todayDateObj = new Date(
-            currentYear,
-            currentMonth,
-            currentDay
-          );
+          const todayDateObj = new Date(currentYear, currentMonth, currentDay);
           const isPast = thisDate < todayDateObj;
 
           return (
@@ -58,38 +53,37 @@ function Calendar({
                 ${isSelected ? "selected" : ""}
                 ${isToday ? "today" : ""}
                 ${hasMeals ? "has-meals" : ""}
-                ${isPast ? "past-date" : ""}
-              `}
+                ${isPast ? "past-date" : ""}`}
               onClick={() => {
                 if (isPast) {
+                  setWarningMessage("You cannot add meals for past dates!");
+                  setShowWarningPopup(true);
+                  return;
+                }
+
+                if (hasMeals) {
                   setWarningMessage(
-                    "You cannot add meals for past dates!"
+                    "Meal(s) already planned. Click the icon 🍽 to update or plan other slots."
                   );
                   setShowWarningPopup(true);
                   return;
                 }
+
                 handleDateClick(day);
               }}
             >
-              {/* Date */}
               <span className="date-number">{day}</span>
 
-              {/* Existing meals indicator */}
               {hasMeals && (
                 <div
                   className="meal-indicators"
                   onClick={(e) => {
                     e.stopPropagation();
-
                     if (isPast) {
-                      setWarningMessage(
-                        "You cannot add meals for past dates!"
-                      );
+                      setWarningMessage("You cannot add meals for past dates!");
                       setShowWarningPopup(true);
                       return;
                     }
-
-                    // 🔑 Just signal intent
                     setPopupDate(day);
                   }}
                 >
