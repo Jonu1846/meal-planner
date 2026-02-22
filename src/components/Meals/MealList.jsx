@@ -1,7 +1,34 @@
 import React, { useState, useEffect } from "react";
 import MealCard from "./MealCard";
 import "./meals.css";
-import { fetchMealsFromAPI } from "../utils/api";
+
+// ✅ Temporary mock data (replaces API)
+const mockMeals = [
+  {
+    id: 1,
+    name: "Paneer Butter Masala",
+    isVeg: true,
+    image: "https://via.placeholder.com/150",
+  },
+  {
+    id: 2,
+    name: "Chicken Biryani",
+    isVeg: false,
+    image: "https://via.placeholder.com/150",
+  },
+  {
+    id: 3,
+    name: "Veg Fried Rice",
+    isVeg: true,
+    image: "https://via.placeholder.com/150",
+  },
+  {
+    id: 4,
+    name: "Mutton Curry",
+    isVeg: false,
+    image: "https://via.placeholder.com/150",
+  },
+];
 
 function MealList({
   filter = "All",
@@ -13,28 +40,27 @@ function MealList({
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // 🔍 Fetch meals from external API when searchTerm changes
+  // 🔍 Local search logic (NO API)
   useEffect(() => {
-    // Do not call API for empty search
-    if (!searchTerm || searchTerm.trim() === "") {
-      setMeals([]);
-      return;
-    }
+    setLoading(true);
 
-    const fetchMeals = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchMealsFromAPI(searchTerm);
-        setMeals(data || []);
-      } catch (err) {
-        console.error("Failed to fetch meals from API:", err);
+    // simulate async behavior (like API, but local)
+    const timeout = setTimeout(() => {
+      if (!searchTerm || searchTerm.trim() === "") {
         setMeals([]);
-      } finally {
         setLoading(false);
+        return;
       }
-    };
 
-    fetchMeals();
+      const filtered = mockMeals.filter((meal) =>
+        meal.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      setMeals(filtered);
+      setLoading(false);
+    }, 300);
+
+    return () => clearTimeout(timeout);
   }, [searchTerm]);
 
   // 🥗 Veg / Non-Veg filter

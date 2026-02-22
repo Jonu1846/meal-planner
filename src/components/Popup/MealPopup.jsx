@@ -3,22 +3,15 @@ import MealSlot from "./MealSlot";
 import "./popup.css";
 
 function MealPopup({
-  date,                 // day number (e.g. 25)
-  selectedMeals = {},   // { "2026-01-25": { breakfast: {...} } }
+  date,                 // NOW EXPECTS "YYYY-MM-DD"
+  selectedMeals = {},
   onClose,
   onViewMeal,
   onAddOrChange,
 }) {
   const mealTimes = ["breakfast", "lunch", "snack", "dinner"];
 
-  // 🔥 FIX: rebuild YYYY-MM-DD key
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth(); // 0-based
-
-  const dateKey = new Date(year, month, date)
-    .toISOString()
-    .split("T")[0];
+  const dateKey = date; // ✅ FIX
 
   const mealsForDay = selectedMeals[dateKey] || {};
 
@@ -35,19 +28,15 @@ function MealPopup({
       >
         <h3>Meals for {dateKey}</h3>
 
-        {mealTimes.map((time) => {
-          const meal = mealsForDay[time];
-
-          return (
-            <MealSlot
-              key={time}
-              time={time}
-              meal={meal}              // ✅ now has name
-              onViewMeal={onViewMeal}
-              onAddOrChange={onAddOrChange}
-            />
-          );
-        })}
+        {mealTimes.map((time) => (
+          <MealSlot
+            key={time}
+            time={time}
+            meal={mealsForDay[time]}
+            onViewMeal={onViewMeal}
+            onAddOrChange={onAddOrChange}
+          />
+        ))}
 
         <div className="daily-calorie-summary">
           <strong>Total Calories:</strong>{" "}

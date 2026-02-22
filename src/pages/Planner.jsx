@@ -1,16 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Calendar from "../components/Calendar/Calendar";
 import MealPopup from "../components/Popup/MealPopup";
 import MealList from "../components/Meals/MealList";
 import MealDetails from "../components/Meals/MealDetails";
 import WarningPopup from "../components/Popup/WarningPopup";
-
-import {
-  getPlannedMeals,
-  addPlannedMeal,
-  updatePlannedMeal,
-} from "../components/utils/api";
-import { normalizeMeal } from "../components/utils/normalizeMeal";
 
 import "../components/Popup/popup.css";
 import "../components/Meals/meals.css";
@@ -37,9 +30,9 @@ function Planner() {
   const [warningMessage, setWarningMessage] = useState("");
 
   const today = new Date();
-  const todayDate = today.getDate();
   const year = today.getFullYear();
   const month = today.getMonth();
+  const todayDate = today.getDate();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = new Date(year, month, 1).getDay();
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -58,49 +51,20 @@ function Planner() {
   };
 
   /* ----------------------
-     Fetch backend meals
-  ---------------------- */
-  useEffect(() => {
-    const fetchAllPlannedMeals = async () => {
-      try {
-        const allMeals = await getPlannedMeals();
-
-        const normalized = [];
-        for (let m of allMeals) {
-          const meal = await normalizeMeal(m, "backend"); // <-- await here
-          normalized.push(meal);
-        }
-
-        const grouped = {};
-        normalized.forEach((meal) => {
-          if (!meal.date) return;
-          const dateKey = new Date(meal.date).toISOString().split("T")[0];
-          if (!grouped[dateKey]) grouped[dateKey] = {};
-          grouped[dateKey][meal.mealTime] = meal;
-        });
-
-        setPlannedMealsByDate(grouped);
-      } catch (err) {
-        console.error("Failed to fetch planned meals:", err);
-      }
-    };
-
-    fetchAllPlannedMeals();
-  }, []);
-
-  /* ----------------------
      Calendar click
   ---------------------- */
   const handleDateClick = (day) => {
     const dateKey = new Date(year, month, day).toISOString().split("T")[0];
     const mealsForDay = plannedMealsByDate[dateKey] || {};
+
     if (Object.keys(mealsForDay).length > 0) {
       setWarningMessage(
-        "Meal(s) already planned. Click the 🍽 icon to update or plan other slots."
+        "Meal(s) already planned. Click the 🍽 icon to update or view."
       );
       setShowWarningPopup(true);
       return;
     }
+
     setSelectedDate(day);
     setShowMealTimePopup(true);
   };
@@ -115,79 +79,50 @@ function Planner() {
   };
 
   const handleMealTypeSelect = (type) => {
-    setMealTypeChoice(type);
-    setFilter(type);
+  setMealTypeChoice(type);
+  setFilter(type);
 
-    setShowPopup(false);
-    setShowMealTypePopup(false);
-    setCurrentView("mealList");
-  };
+  // 🔑 CLOSE ALL POPUPS BEFORE MOVING FORWARD
+  setShowMealTypePopup(false);
+  setShowMealTimePopup(false);
+  setShowPopup(false);
+  setPopupDate(null);
+
+  setCurrentView("mealList");
+};
+
 
   /* ----------------------
-     Persist selection to backend
+     Save meal LOCALLY (KEY FIX)
   ---------------------- */
-  const handleStartSelection = async (meal) => {
+  const handleStartSelection = (meal) => {
     const targetDate = popupDate ?? selectedDate;
-    const dateKey = new Date(year, month, targetDate).toISOString().split("T")[0];
+    const dateKey = new Date(year, month, targetDate)
+      .toISOString()
+      .split("T")[0];
 
-    const normalizedMeal = await normalizeMeal(
-      {
-        ...meal,
-        mealTime: selectedMealTime,
-        category: mealTypeChoice,
-        date: dateKey,
+    setPlannedMealsByDate((prev) => ({
+      ...prev,
+      [dateKey]: {
+        ...(prev[dateKey] || {}),
+        [selectedMealTime]: {
+          ...meal,
+          mealTime: selectedMealTime,
+          category: mealTypeChoice,
+          date: dateKey,
+        },
       },
-      "API"
-    );
+    }));
 
-    try {
-      const existingMeal = plannedMealsByDate[dateKey]?.[selectedMealTime];
-
-      if (existingMeal) {
-        await updatePlannedMeal(existingMeal.id, {
-          date: dateKey,
-          meal_type: selectedMealTime,
-          meal_id: normalizedMeal.id,
-          is_veg: normalizedMeal.category === "Veg",
-        });
-      } else {
-        await addPlannedMeal({
-          date: dateKey,
-          meal_type: selectedMealTime,
-          meal_id: normalizedMeal.id,
-          is_veg: normalizedMeal.category === "Veg",
-        });
-      }
-
-      // Refresh all planned meals
-      const allMeals = await getPlannedMeals();
-
-      const normalizedAll = [];
-      for (let m of allMeals) {
-        const meal = await normalizeMeal(m, "backend");
-        normalizedAll.push(meal);
-      }
-
-      const grouped = {};
-      normalizedAll.forEach((m) => {
-        if (!m.date) return;
-        const key = new Date(m.date).toISOString().split("T")[0];
-        if (!grouped[key]) grouped[key] = {};
-        grouped[key][m.mealTime] = m;
-      });
-      setPlannedMealsByDate(grouped);
-
-      setCurrentView("calendar");
-      setSearchTerm("");
-    } catch (err) {
-      console.error("Failed to persist meal:", err);
-    }
+    setCurrentView("calendar");
+    setSearchTerm("");
   };
 
   /* ----------------------
      Popup actions
   ---------------------- */
   const handleViewMealFromPopup = (meal) => setMealForDetails(meal);
+
   const handleAddOrChangeFromPopup = (time) => {
     setSelectedMealTime(time);
     setShowMealTypePopup(true);
@@ -197,20 +132,24 @@ function Planner() {
     <div style={{ padding: "20px" }}>
       {currentView === "calendar" && (
         <Calendar
-          selectedDate={selectedDate}
-          selectedMeals={plannedMealsByDate}
-          todayDate={todayDate}
-          firstDayOfMonth={firstDayOfMonth}
-          daysInMonth={daysInMonth}
-          dayNames={dayNames}
-          handleDateClick={handleDateClick}
-          setPopupDate={(d) => {
-            setPopupDate(d);
-            setShowPopup(true);
-          }}
-          setWarningMessage={setWarningMessage}
-          setShowWarningPopup={setShowWarningPopup}
-        />
+  selectedDate={selectedDate}
+  selectedMeals={plannedMealsByDate}
+  todayDate={todayDate}
+  firstDayOfMonth={firstDayOfMonth}
+  daysInMonth={daysInMonth}
+  dayNames={dayNames}
+  handleDateClick={handleDateClick}
+
+  setPopupDate={(d) => {
+    setPopupDate(d);
+    setShowPopup(true);
+  }}
+
+  /* 🔑 ADD THESE TWO LINES */
+  setWarningMessage={setWarningMessage}
+  setShowWarningPopup={setShowWarningPopup}
+/>
+
       )}
 
       {currentView === "mealList" && (selectedDate || popupDate) && (

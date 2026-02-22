@@ -55,22 +55,27 @@ function Calendar({
                 ${hasMeals ? "has-meals" : ""}
                 ${isPast ? "past-date" : ""}`}
               onClick={() => {
-                if (isPast) {
-                  setWarningMessage("You cannot add meals for past dates!");
-                  setShowWarningPopup(true);
-                  return;
-                }
+  if (isPast) {
+    setWarningMessage("You cannot add meals for past dates!");
+    setShowWarningPopup(true);
+    return;
+  }
 
-                if (hasMeals) {
-                  setWarningMessage(
-                    "Meal(s) already planned. Click the icon 🍽 to update or plan other slots."
-                  );
-                  setShowWarningPopup(true);
-                  return;
-                }
+  if (hasMeals) {
+    setWarningMessage(
+      "Meal(s) already planned. Click the icon 🍽 to update or plan other slots."
+    );
+    setShowWarningPopup(true);
+    return;
+  }
 
-                handleDateClick(day);
-              }}
+  if (!day) {
+    return; // 🛑 absolute safety guard
+  }
+
+  handleDateClick(day);
+}}
+
             >
               <span className="date-number">{day}</span>
 
@@ -84,7 +89,7 @@ function Calendar({
                       setShowWarningPopup(true);
                       return;
                     }
-                    setPopupDate(day);
+                    setPopupDate(dateKey); // ✅ FIXED LINE
                   }}
                 >
                   🍽
