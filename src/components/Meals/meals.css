@@ -2,7 +2,8 @@
 .meal-list-page {
   border-radius: 40px;
   padding: 20px;
-  background: #fff3e8; /* soft peach */
+  background: #fff3e8;
+  /* soft peach */
   min-height: 100vh;
 }
 
@@ -25,6 +26,35 @@
   font-size: 14px;
   cursor: pointer;
   color: #444;
+}
+
+/* Cuisine tabs */
+.cuisine-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.cuisine-tab {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 2px solid #ff8c5a;
+  background: transparent;
+  color: #ff8c5a;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.cuisine-tab:hover {
+  background: #ffe0cc;
+}
+
+.cuisine-tab.active {
+  background: #ff8c5a;
+  color: #fff;
 }
 
 /* Search */
@@ -94,23 +124,50 @@
   color: #555;
 }
 
-/* Select Button */
-.meal-card button {
-  width: 100%;
-  margin: 10px;
-  margin-left: -2px;
-  padding: 10px;
+/* Cuisine label inside card */
+.meal-cuisine-label {
+  font-size: 12px;
+  color: #888;
+  margin: 0 0 10px;
+}
+
+/* Card action buttons row */
+.meal-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.meal-card-actions button {
+  flex: 1;
+  padding: 9px 0;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  background-color: #ff8c5a;
-  color: white;
-  font-weight: 500;
-  transition: background 0.2s;
+  font-weight: 600;
+  font-size: 13px;
+  transition: background 0.2s, transform 0.1s;
 }
 
-.meal-card button:hover {
-  background-color: #ff7043;
+.btn-details {
+  background: #fff0e8;
+  color: #ff8c5a;
+  border: 2px solid #ff8c5a !important;
+}
+
+.btn-details:hover {
+  background: #ffe0cc;
+  transform: translateY(-1px);
+}
+
+.btn-select {
+  background: #ff8c5a;
+  color: #fff;
+}
+
+.btn-select:hover {
+  background: #ff7043;
+  transform: translateY(-1px);
 }
 
 /* Empty state */
@@ -119,4 +176,216 @@
   text-align: center;
   color: #666;
   font-size: 16px;
+}
+
+/* =============================================
+   MEAL DETAILS MODAL
+============================================= */
+
+.details-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.details-modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 680px;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 28px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.details-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.details-close-btn:hover {
+  background: #e0e0e0;
+}
+
+.details-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  padding-right: 32px;
+  color: #222;
+}
+
+/* Meta badges */
+.details-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.details-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.details-badge.cuisine {
+  background: #fff0e8;
+  color: #ff8c5a;
+}
+
+.details-badge.veg {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.details-badge.nonveg {
+  background: #fce4ec;
+  color: #c62828;
+}
+
+.details-badge.time {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.details-badge.calories {
+  background: #fff8e1;
+  color: #e65100;
+}
+
+/* Body — two columns on wide screens */
+.details-body {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+}
+
+@media (max-width: 560px) {
+  .details-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.details-section h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Ingredients list */
+.details-ingredients {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.details-ingredients li {
+  font-size: 13px;
+  color: #444;
+  padding: 5px 10px;
+  background: #fafafa;
+  border-radius: 6px;
+  border-left: 3px solid #ff8c5a;
+}
+
+/* Instructions */
+.details-instructions {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.7;
+}
+
+.details-instructions p {
+  margin: 0 0 10px;
+}
+
+/* YouTube button */
+.details-youtube-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #ff0000;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.details-youtube-btn:hover {
+  background: #cc0000;
+}
+
+.details-loading {
+  text-align: center;
+  padding: 40px 0;
+  color: #888;
+  font-size: 15px;
+}
+
+/* =============================================
+   STATE CONTAINERS (Loading, Error, Empty)
+============================================= */
+.state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  grid-column: 1 / -1;
+}
+
+.state-text {
+  font-size: 16px;
+  color: #555;
+  font-weight: 500;
+  margin-top: 15px;
+}
+
+.error-text {
+  color: #e74c3c;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 140, 90, 0.3);
+  border-left-color: #ff8c5a;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

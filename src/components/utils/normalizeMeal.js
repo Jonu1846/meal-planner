@@ -1,51 +1,37 @@
-import { fetchMealById } from "./api";
+/**
+ * Converts a raw DB row from the backend into the meal shape used in the UI.
+ *
+ * Backend row shape:
+ *   { id, meal_name, meal_type, meal_date, calories, isVeg }
+ *
+ * Normalized shape (used everywhere in the app):
+ *   { id, name, image, mealTime, category, calories, date, isVeg }
+ */
+export const normalizeMealFromDB = (row) => ({
+  id: row.id,                              // DB primary key (for update/delete)
+  mealDbId: row.meal_id,                   // MealDB API primary key (for fetching details)
+  name: row.meal_name,
+  image: row.image || "",                  // backend doesn't store image — filled in later from MealDB if needed
+  mealTime: row.meal_type,                 // "breakfast" | "lunch" | "snack" | "dinner"
+  category: row.isVeg ? "Veg" : "Non-Veg",
+  calories: row.calories || 0,
+  date: row.meal_date ? row.meal_date.split("T")[0] : null, // Guarantee "YYYY-MM-DD" shape
+  isVeg: Boolean(row.isVeg),
+});
 
-export const normalizeMeal = async (meal, source = "API") => {
-  /* =====================
-     FROM API (Meal List)
-  ===================== */
-  if (source === "API") {
-    return {
-      id: String(meal.id),
-      name: meal.name,
-      image: meal.image,
-      mealTime: meal.mealTime || "lunch",
-      category: meal.category || "Veg",
-      calories: meal.calories || 0,
-      date: meal.date || null,
-      source,
-    };
-  }
-
-  /* =====================
-     FROM BACKEND (MySQL)
-  ===================== */
-  if (source === "backend") {
-    // 🔥 FORCE STRING (THIS FIXES IT)
-    const mealApiId = String(meal.meal_id);
-
-    const mealDetails = await fetchMealById(mealApiId);
-
-    return {
-      id: meal.id,                 // DB row ID
-      mealApiId,                   // MealDB ID
-      name: mealDetails?.name || "Unknown Meal",
-      image: mealDetails?.image || "",
-      mealTime: meal.meal_type,
-      category: meal.is_veg ? "Veg" : "Non-Veg",
-      calories: mealDetails?.calories || 0,
-      date: meal.date,
-      source,
-    };
-  }
-
-  return {
-    id: meal.id,
-    name: meal.name || "Unnamed Meal",
-    mealTime: meal.mealTime || "lunch",
-    category: meal.category || "Veg",
-    calories: meal.calories || 0,
-    date: meal.date || null,
-    source,
-  };
-};
+/**
+ * Converts a MealDB API result (already mapped in api.js) into the same UI shape.
+ * The MealDB result shape coming in:
+ *   { id, name, image, category, area, isVeg }
+ */
+export const normalizeMealFromAPI = (meal) => ({
+  id: null,                                // no DB id yet — assigned after addMeal()
+  mealDbId: meal.id,                       // ID from MealDB API
+  name: meal.name,
+  image: meal.image || "",
+  mealTime: null,                          // set by Planner when user picks a time slot
+  category: meal.isVeg ? "Veg" : "Non-Veg",
+  calories: meal.calories || 0,
+  date: null,                              // set by Planner
+  isVeg: Boolean(meal.isVeg),
+});

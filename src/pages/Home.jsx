@@ -15,12 +15,12 @@ const Home = () => {
         </div>
 
         <div className="hero-text">
-          <h1>🍖Banquet Planner🍖</h1>
+          <h1>🍖 Banquet Planner 🍖</h1>
           <p>
-            Plan your meals easily, stay organized, and eat better every day.
+            Master your nutrition, track your habits, and build a healthier lifestyle with an intuitive, calendar-based meal planner.
           </p>
           <button className="hero-button" onClick={() => navigate("/planner")}>
-            <span className="emoji">🍽️</span> Plan Your Feast
+            <span className="emoji">🍽️</span> Start Planning
           </button>
         </div>
       </section>
@@ -29,48 +29,53 @@ const Home = () => {
       <section className="home-why">
         <div className="why-card">
           <span>📅</span>
-          <h3>Plan by Date</h3>
-          <p>Choose any date and organize meals clearly.</p>
+          <h3>Better Planning</h3>
+          <p>Organize your week in advance to save time, reduce food waste, and eliminate the daily "what's for dinner" stress.</p>
         </div>
 
         <div className="why-card">
-          <span>🟢 🔴</span>
-          <h3>Veg / Non-Veg</h3>
-          <p>Track veg and non-veg meals easily.</p>
+          <span>📈</span>
+          <h3>Consistency Tracking</h3>
+          <p>Build lifelong sustainable habits by visually tracking your daily meal consistency on your personal calendar.</p>
         </div>
 
         <div className="why-card">
-          <span>⏰</span>
-          <h3>Multiple Meals</h3>
-          <p>Manage morning, lunch, snacks, and dinner.</p>
+          <span>🥦</span>
+          <h3>Smarter Eating</h3>
+          <p>Raise your health awareness by balancing your calorie intake and actively monitoring your diet type and nutrition.</p>
         </div>
       </section>
 
       {/* FEATURES */}
       <section className="home-features">
-        <h2>What you can do</h2>
+        <h2>Key Features</h2>
         <ul>
-          <li>Calendar-based meal planning</li>
-          <li>Clean popup-based meal selection</li>
-          <li>Simple and distraction-free interface</li>
+          <li>Calendar-based meal planning for long-term organization</li>
+          <li>Clear Veg & Non-Veg indicators for dietary preferences</li>
+          <li>Detailed calorie tracking to meet your health goals</li>
+          <li>Interactive popups displaying full recipes and ingredients</li>
+          <li>Weekly analytics in the Insights dashboard to track progress</li>
+          <li>A clean, distraction-free interface built for speed</li>
         </ul>
       </section>
 
       {/* HOW IT WORKS */}
       <section className="home-steps">
-        <h2>How it works</h2>
+        <h2>How to Use Banquet Planner</h2>
         <div className="steps">
-          <div className="step">1. Select a date</div>
-          <div className="step">2. Choose meal & time</div>
-          <div className="step">3. View and manage meals</div>
+          <div className="step">1. Open the Planner from the menu</div>
+          <div className="step">2. Click on any date in the calendar</div>
+          <div className="step">3. Add Breakfast, Lunch, or Dinner</div>
+          <div className="step">4. Click a meal name to read full details</div>
+          <div className="step">5. Visit Insights to track your progress</div>
         </div>
       </section>
 
       {/* FINAL CTA */}
       <section className="home-cta">
-        <h2>Ready to plan your meals?</h2>
+        <h2>Ready to take control of your diet?</h2>
         <button className="hero-button" onClick={() => navigate("/planner")}>
-          <span className="emoji">🍽️</span> Plan Your Feast
+          <span className="emoji">🚀</span> Start Planning Now
         </button>
       </section>
 

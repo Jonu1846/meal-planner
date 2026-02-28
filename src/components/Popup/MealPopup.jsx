@@ -3,11 +3,11 @@ import MealSlot from "./MealSlot";
 import "./popup.css";
 
 function MealPopup({
-  date,                 // NOW EXPECTS "YYYY-MM-DD"
+  date,
   selectedMeals = {},
   onClose,
-  onViewMeal,
   onAddOrChange,
+  onViewDetails,
 }) {
   const mealTimes = ["breakfast", "lunch", "snack", "dinner"];
 
@@ -33,8 +33,8 @@ function MealPopup({
             key={time}
             time={time}
             meal={mealsForDay[time]}
-            onViewMeal={onViewMeal}
             onAddOrChange={onAddOrChange}
+            onViewDetails={onViewDetails}
           />
         ))}
 

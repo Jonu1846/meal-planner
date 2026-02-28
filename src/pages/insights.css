@@ -1,0 +1,56 @@
+/* src/pages/insights.css */
+
+.insights-page {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: #333;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.loading-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  margin-top: 20px;
+  border: 1px dashed #dcdde1;
+}
+
+.empty-state h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+}
+
+.empty-state p {
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+/* Add a subtle entrance animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments for summary cards and meal breakdown */
+@media (max-width: 768px) {
+  .insights-page > div {
+    grid-template-columns: 1fr !important;
+  }
+}

@@ -13,25 +13,37 @@
 ========================= */
 .sidebar {
   position: fixed;
-  top: 0;
-  left: -320px; /* hidden off-screen */
+  top: 70px;
+  /* Below Navbar */
+  left: 0;
   width: 300px;
-  height: 100vh;
-
+  height: calc(100vh - 70px);
   background: #fff8f2;
   padding: 24px;
-
   box-shadow: 8px 0 24px rgba(0, 0, 0, 0.2);
-  transition: left 0.35s ease;
-
-  z-index: 999;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 900;
   overflow-y: auto;
 }
 
 /* Open state */
 .sidebar.open {
-  left: 0;
+  transform: translateX(0);
 }
+
+/* Main content shifting */
+.main-content {
+  transition: margin-left 0.3s ease;
+  margin-left: 0;
+  padding-top: 70px;
+  /* Account for fixed Navbar */
+}
+
+.main-content.shifted {
+  margin-left: 300px;
+}
+
 
 /* =========================
    CLOSE BUTTON
@@ -49,26 +61,378 @@
    TEXT & SPACING
 ========================= */
 .sidebar h3 {
-  color: #d84315;
-  margin-bottom: 16px;
+  color: #1e3c72;
+  margin: 0;
+  font-size: 16px;
 }
 
 .sidebar-section {
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
-.sidebar-hint {
-  margin-top: 10px;
-  font-style: italic;
-  color: #777;
+/* =========================
+   HEADER ROW (Phase 3)
+========================= */
+.header-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
+
+/* =========================
+   STATUS DOT (Phase 3)
+========================= */
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.status-dot.green {
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.7);
+}
+
+.status-dot.orange {
+  background: #f97316;
+  box-shadow: 0 0 6px rgba(249, 115, 22, 0.7);
+}
+
+.status-dot.red {
+  background: #ef4444;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.7);
+}
+
+/* =========================
+   PERSONALITY BADGE (Phase 3)
+========================= */
+.badge-card {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 14px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform 0.2s ease;
+}
+
+.badge-card:hover {
+  transform: translateY(-2px);
+}
+
+.badge-top {
+  margin-bottom: 4px;
+}
+
+.badge-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.badge-subtitle {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 2px 0 8px;
+}
+
+/* Micro Motivation (Phase 3) */
+.motivation-text {
+  font-size: 12px;
+  font-style: italic;
+  color: #93c5fd;
+  margin: 0;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   SNAPSHOT SECTION (Phase 1 & 2)
+========================= */
+.snapshot-section {
+  margin-top: 10px;
+}
+
+.snapshot-section>p {
+  font-size: 15px;
+  font-weight: 600;
+  color: #d84315;
+  margin-bottom: 8px;
+}
+
+.snapshot-card {
+  background: rgba(30, 58, 95, 0.1);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.daily-goal-text {
+  font-size: 13px;
+  color: #555;
+  margin: 0 0 8px 0;
+}
+
+.daily-goal-text strong {
+  color: #1e3c72;
+}
+
+/* Progress Bar */
+.progress-container {
+  width: 100%;
+  height: 8px;
+  background: rgba(15, 23, 42, 0.12);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+  border-radius: 12px;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 6px rgba(42, 82, 152, 0.4);
+}
+
+.calories-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calories-info p {
+  margin: 0;
+  font-size: 13px;
+  color: #444;
+}
+
+.remaining-text {
+  color: #444;
+}
+
+.remaining-text strong {
+  color: #2a5298;
+}
+
+.exceeded-text {
+  color: #e63946 !important;
+}
+
+.exceeded-text strong {
+  color: #e63946 !important;
+}
+
+.meals-planned-text {
+  font-size: 13px;
+  color: #555;
+  margin: 0;
+}
+
+.meals-planned-text strong {
+  color: #1e3c72;
+}
+
+/* =========================
+   REMINDER SECTION (Phase 2)
+========================= */
+.reminder-section {
+  margin-top: 4px;
+}
+
+.reminder-card {
+  background: rgba(30, 60, 114, 0.12);
+  border: 1px solid rgba(30, 60, 114, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 12px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  color: #1e3c72;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.reminder-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.reminder-card p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* =========================
+   STREAK BAR (Phase 4)
+========================= */
+.streak-bar {
+  background: linear-gradient(90deg, #92400e, #b45309);
+  color: #fef3c7;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 8px rgba(180, 83, 9, 0.3);
+}
+
+.streak-bar strong {
+  color: #fde68a;
+}
+
+/* =========================
+   ADAPTIVE GOAL BADGE (Phase 4)
+========================= */
+.snapshot-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.snapshot-title-row p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #d84315;
+}
+
+.adaptive-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+  padding: 3px 8px;
+  border-radius: 20px;
+  cursor: help;
+  white-space: nowrap;
+  box-shadow: 0 1px 6px rgba(42, 82, 152, 0.4);
+}
+
+/* =========================
+   SMART SUGGESTION (Phase 4)
+========================= */
+.suggestion-section {
+  margin-top: 4px;
+}
+
+.suggestion-card {
+  background: rgba(30, 60, 114, 0.1);
+  border: 1px solid rgba(42, 82, 152, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 12px 14px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #1e3c72;
+  font-size: 13px;
+  font-weight: 500;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.suggestion-card p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.suggestion-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(42, 82, 152, 0.15);
+  }
+
+  50% {
+    box-shadow: 0 0 0 5px rgba(42, 82, 152, 0);
+  }
+}
+
+/* =========================
+   WEEKLY ANALYSIS (Phase 4)
+========================= */
+.weekly-section {
+  margin-top: 4px;
+}
+
+.weekly-title {
+  font-size: 14px;
+  color: #1e3c72;
+  margin: 0 0 8px;
+}
+
+.weekly-title strong {
+  color: #1e3c72;
+}
+
+.weekly-card {
+  background: linear-gradient(135deg, rgba(30, 60, 114, 0.12), rgba(42, 82, 152, 0.08));
+  border: 1px solid rgba(42, 82, 152, 0.2);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.weekly-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.weekly-key {
+  font-size: 12px;
+  color: #666;
+}
+
+.weekly-val {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1e3c72;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+
 
 /* =========================
    TOGGLE BUTTON (NAVBAR)
 ========================= */
 .sidebar-toggle-btn {
   position: absolute;
-  left: 16px;      /* 👈 left-hand end */
+  left: 16px;
+  /* 👈 left-hand end */
   top: 50%;
   transform: translateY(-50%);
 
@@ -103,4 +467,178 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 18px;
+}
+
+/* =========================
+   XP & LEVEL CARD (Phase 5)
+========================= */
+.xp-card {
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  transition: box-shadow 0.4s ease;
+}
+
+/* Level-based glow variants */
+.xp-card.glow-blue {
+  box-shadow: 0 0 12px rgba(42, 82, 152, 0.4);
+}
+
+.xp-card.glow-violet {
+  box-shadow: 0 0 14px rgba(124, 58, 237, 0.4);
+}
+
+.xp-card.glow-gold {
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.5);
+  background: linear-gradient(135deg, #92400e, #b45309);
+}
+
+.xp-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.level-badge {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.xp-count {
+  font-size: 12px;
+  font-weight: 700;
+  color: #bfdbfe;
+  display: inline-block;
+}
+
+/* XP bounce on increase */
+.xp-bounce {
+  animation: xpBounce 0.4s ease;
+}
+
+@keyframes xpBounce {
+  0% {
+    transform: scale(1);
+  }
+
+  40% {
+    transform: scale(1.25);
+  }
+
+  70% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.xp-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #93c5fd, #60a5fa);
+  border-radius: 10px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 6px rgba(147, 197, 253, 0.5);
+}
+
+.xp-next-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  text-align: right;
+}
+
+/* =========================
+   ACHIEVEMENTS (Phase 5)
+========================= */
+.achievements-section {
+  margin-top: 0;
+}
+
+.achievements-title {
+  font-size: 14px;
+  color: #1e3c72;
+  margin: 0 0 8px;
+}
+
+.achievements-title strong {
+  color: #1e3c72;
+}
+
+.badges-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 6px;
+  border-radius: 12px;
+  text-align: center;
+  gap: 4px;
+  transition: transform 0.2s ease;
+}
+
+.badge-item.unlocked {
+  background: linear-gradient(135deg, rgba(30, 60, 114, 0.15), rgba(42, 82, 152, 0.1));
+  border: 1px solid rgba(42, 82, 152, 0.3);
+  animation: badgeFadeIn 0.5s ease;
+  cursor: default;
+}
+
+.badge-item.unlocked:hover {
+  transform: translateY(-2px);
+}
+
+.badge-item.locked {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  opacity: 0.4;
+  filter: grayscale(1);
+}
+
+@keyframes badgeFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.badge-emoji {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.badge-item-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #1e3c72;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.badge-item.locked .badge-item-label {
+  color: #999;
 }

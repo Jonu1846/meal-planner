@@ -1,10 +1,8 @@
 import React from "react";
 import "./popup.css";
 
-function MealSlot({ time, meal, onViewMeal, onAddOrChange }) {
-  const timeLabel =
-    time.charAt(0).toUpperCase() + time.slice(1);
-
+function MealSlot({ time, meal, onAddOrChange, onViewDetails }) {
+  const timeLabel = time.charAt(0).toUpperCase() + time.slice(1);
   const isVeg = meal?.category === "Veg";
   const isNonVeg = meal?.category === "Non-Veg";
 
@@ -15,14 +13,16 @@ function MealSlot({ time, meal, onViewMeal, onAddOrChange }) {
       <div className="meal-slot-buttons">
         {meal ? (
           <>
-            {/* View selected meal */}
-            <button onClick={() => onViewMeal(meal)}>
-              🍽 {meal.name}{" "}
+            <button
+              className="meal-slot-name-btn"
+              onClick={() => onViewDetails && onViewDetails(meal)}
+              title="Click to view details"
+            >
+              🍽 {meal.name}
               {isVeg && <span style={{ marginLeft: "6px" }}>🟢</span>}
               {isNonVeg && <span style={{ marginLeft: "6px" }}>🔴</span>}
             </button>
 
-            {/* Change meal */}
             <button onClick={() => onAddOrChange(time)}>
               Change food
             </button>

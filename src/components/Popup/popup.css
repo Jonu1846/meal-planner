@@ -179,6 +179,21 @@
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(255, 111, 97, 0.35);
 }
+/* Meal name button — looks like a clickable label, not a plain button */
+.meal-slot-name-btn {
+  background: #fff8f2 !important;
+  color: #d84315 !important;
+  border: 2px solid #ffd1a4 !important;
+  text-align: left;
+  text-decoration: underline dotted #ff9a76;
+  cursor: pointer;
+}
+
+.meal-slot-name-btn:hover {
+  background: #ffe8d6 !important;
+  text-decoration: underline solid #d84315;
+}
+
 /* Daily Calorie Summary */
 .daily-calorie-summary {
   margin-top: 16px;

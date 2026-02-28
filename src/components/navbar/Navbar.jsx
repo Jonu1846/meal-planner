@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import Sidebar from "../Sidebar/Sidebar";
 import "./Navbar.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navItems = [
     { path: "/", label: "Home", icon: "🏠", end: true },
@@ -16,20 +14,6 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        {/* Sidebar Toggle Button */}
-        <button
-  className="sidebar-toggle-btn"
-  onClick={() => setSidebarOpen(prev => !prev)}
->
-  🍔
-</button>
-
-
-        {/* Sidebar */}
-        <Sidebar
-          isOpen={sidebarOpen}
-          onClose={() => setSidebarOpen(false)}
-        />
 
         {/* Brand */}
         <NavLink
